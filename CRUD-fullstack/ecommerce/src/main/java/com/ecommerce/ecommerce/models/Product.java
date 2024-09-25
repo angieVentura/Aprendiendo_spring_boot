@@ -17,11 +17,40 @@ public class Product {
 
 
     private Long categoryId;
+
+    private Long brandId;
+    private Long sizeId;
+
+    private Long colorId;
+
     private String description;
 
 
     private double price;
 
+    public Long getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(Long genderId) {
+        this.brandId = genderId;
+    }
+
+    public Long getSizeId() {
+        return sizeId;
+    }
+
+    public void setSizeId(Long sizeId) {
+        this.sizeId = sizeId;
+    }
+
+    public Long getColorId() {
+        return colorId;
+    }
+
+    public void setColorId(Long colorId) {
+        this.colorId = colorId;
+    }
 
     public Long getCategoryId() {
         return categoryId;

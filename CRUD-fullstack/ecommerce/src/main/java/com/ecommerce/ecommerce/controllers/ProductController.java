@@ -3,8 +3,10 @@ package com.ecommerce.ecommerce.controllers;
 
 import com.ecommerce.ecommerce.exceptions.ProductNotFoundException;
 import com.ecommerce.ecommerce.models.Product;
-import com.ecommerce.ecommerce.repositories.ProductRepository;
+import com.ecommerce.ecommerce.repositories.*;
+import com.ecommerce.ecommerce.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -16,7 +18,10 @@ import java.util.List;
 public class ProductController {
     @Autowired
     private ProductRepository productRepo;
-
+    private CategoryRepository categoryRepo;
+    private ColorRepository colorRepo;
+    private SizeRepository sizeRepo;
+    private BrandRepository brandRepo;
 
     @PostMapping("/product")
     public Product newProduct(@RequestBody Product newProduct) {
@@ -26,7 +31,7 @@ public class ProductController {
 
     @GetMapping("/products")
     public List<Product> getAllProducts() {
-        return productRepo.findAll();
+        return (List<Product>) productRepo.findAll();
     }
 
 
@@ -36,7 +41,6 @@ public class ProductController {
                 .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
-
     @PutMapping("/product/{id}")
     public Product updateProduct(@RequestBody Product newProduct, @PathVariable Long id) {
         return productRepo.findById(id)
@@ -44,12 +48,14 @@ public class ProductController {
                     product.setName(newProduct.getName());
                     product.setDescription(newProduct.getDescription());
                     product.setPrice(newProduct.getPrice());
-
+                    product.setCategoryId(newProduct.getCategoryId());
+                    product.setSizeId(newProduct.getSizeId());
+                    product.setBrandId(newProduct.getBrandId());
+                    product.setColorId(newProduct.getColorId());
 
                     return productRepo.save(product);
                 }).orElseThrow(() -> new ProductNotFoundException(id));
     }
-
 
     @DeleteMapping("/product/{id}")
     public String deleteProduct(@PathVariable Long id){
@@ -57,9 +63,32 @@ public class ProductController {
             throw new ProductNotFoundException(id);
         }
 
-
         productRepo.deleteById(id);
         return "Product con el ID " + id + " eliminao.";
+    }
+
+    //GET /products/filter?brandId=1&categoryId=2&sizeId=3&colorId=4&minPrice=10.0&maxPrice=50.0
+    @GetMapping("/products/filter")
+    public List<Product> filterProducts(
+            @RequestParam(required = false) Long brandId,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) Long sizeId,
+            @RequestParam(required = false) Long colorId,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice) {
+
+        try {
+            Specification<Product> spec = Specification.where(ProductService.hasBrand(brandId))
+                    .and(ProductService.hasCategory(categoryId))
+                    .and(ProductService.hasSize(sizeId))
+                    .and(ProductService.hasColor(colorId))
+                    .and(ProductService.hasPriceBetween(minPrice, maxPrice));
+
+            return productRepo.findAll(spec);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al filtrar productos", e);
+        }
     }
 }
 
