@@ -41,21 +41,23 @@ public class ProductController {
                 .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
-    @PutMapping("/product/{id}")
+    /*@PutMapping("/product/{id}")
     public Product updateProduct(@RequestBody Product newProduct, @PathVariable Long id) {
+
+
         return productRepo.findById(id)
                 .map(product -> {
                     product.setName(newProduct.getName());
                     product.setDescription(newProduct.getDescription());
                     product.setPrice(newProduct.getPrice());
-                    product.setCategoryId(newProduct.getCategoryId());
+                    product.setCategory(newProduct.getCategoryId());
                     product.setSizeId(newProduct.getSizeId());
                     product.setBrandId(newProduct.getBrandId());
                     product.setColorId(newProduct.getColorId());
 
                     return productRepo.save(product);
                 }).orElseThrow(() -> new ProductNotFoundException(id));
-    }
+    }*/
 
     @DeleteMapping("/product/{id}")
     public String deleteProduct(@PathVariable Long id){
@@ -75,7 +77,7 @@ public class ProductController {
             @RequestParam(required = false) Long sizeId,
             @RequestParam(required = false) Long colorId,
             @RequestParam(required = false) Double minPrice,
-            @RequestParam(required = false) Double maxPrice) {
+            @RequestParam(required = false) Double maxPrice){
 
         try {
             Specification<Product> spec = Specification.where(ProductService.hasBrand(brandId))
@@ -91,5 +93,3 @@ public class ProductController {
         }
     }
 }
-
-

@@ -9,25 +9,25 @@ public class ProductService {
     public static Specification<Product> hasBrand(Long brandId) {
         return (root, query, criteriaBuilder) ->
                 brandId == null ? criteriaBuilder.conjunction() :
-                        criteriaBuilder.equal(root.get("brand").get("id"), brandId);
+                        criteriaBuilder.equal(root.get("brandId"), brandId);
     }
 
     public static Specification<Product> hasCategory(Long categoryId) {
         return (root, query, criteriaBuilder) ->
                 categoryId == null ? criteriaBuilder.conjunction() :
-                        criteriaBuilder.equal(root.get("category").get("id"), categoryId);
+                        criteriaBuilder.equal(root.get("categoryId"), categoryId);
     }
 
     public static Specification<Product> hasSize(Long sizeId) {
         return (root, query, criteriaBuilder) ->
                 sizeId == null ? criteriaBuilder.conjunction() :
-                        criteriaBuilder.equal(root.get("size").get("id"), sizeId);
+                        criteriaBuilder.equal(root.get("sizeId"), sizeId);
     }
 
     public static Specification<Product> hasColor(Long colorId) {
         return (root, query, criteriaBuilder) ->
                 colorId == null ? criteriaBuilder.conjunction() :
-                        criteriaBuilder.equal(root.get("color").get("id"), colorId);
+                        criteriaBuilder.equal(root.get("colorId"), colorId);
     }
 
 

@@ -1,9 +1,9 @@
 package com.ecommerce.ecommerce.models;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 
 @Entity
@@ -14,53 +14,60 @@ public class Product {
     @GeneratedValue
     private Long id;
     private String name;
-
-
-    private Long categoryId;
-
-    private Long brandId;
-    private Long sizeId;
-
-    private Long colorId;
-
     private String description;
-
-
     private double price;
 
-    public Long getBrandId() {
-        return brandId;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
+    @ManyToOne
+    @JoinColumn(name = "size_id")
+    private Size size;
+
+    @ManyToMany
+    @JoinTable(
+            name = "product_color",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "color_id")
+    )
+    private List<Color> colors;
+
+    public Category getCategory() {
+        return category;
     }
 
-    public void setBrandId(Long genderId) {
-        this.brandId = genderId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
-    public Long getSizeId() {
-        return sizeId;
+    public Brand getBrand() {
+        return brand;
     }
 
-    public void setSizeId(Long sizeId) {
-        this.sizeId = sizeId;
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 
-    public Long getColorId() {
-        return colorId;
+    public Size getSize() {
+        return size;
     }
 
-    public void setColorId(Long colorId) {
-        this.colorId = colorId;
+    public void setSize(Size size) {
+        this.size = size;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public List<Color> getColors() {
+        return colors;
     }
 
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public void setColors(List<Color> colors) {
+        this.colors = colors;
     }
-
 
     public double getPrice() {
         return price;
