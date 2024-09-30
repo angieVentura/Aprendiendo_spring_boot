@@ -18,6 +18,7 @@ import java.util.List;
 public class ProductController {
     @Autowired
     private ProductRepository productRepo;
+    private ProductService productService;
     private CategoryRepository categoryRepo;
     private ColorRepository colorRepo;
     private SizeRepository sizeRepo;
@@ -80,13 +81,8 @@ public class ProductController {
             @RequestParam(required = false) Double maxPrice){
 
         try {
-            Specification<Product> spec = Specification.where(ProductService.hasBrand(brandId))
-                    .and(ProductService.hasCategory(categoryId))
-                    .and(ProductService.hasSize(sizeId))
-                    .and(ProductService.hasColor(colorId))
-                    .and(ProductService.hasPriceBetween(minPrice, maxPrice));
 
-            return productRepo.findAll(spec);
+            return productService.filterProducts(brandId, categoryId, sizeId, colorId, minPrice, maxPrice);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Error al filtrar productos", e);

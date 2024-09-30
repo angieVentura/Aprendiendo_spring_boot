@@ -1,11 +1,17 @@
 package com.ecommerce.ecommerce.services;
 
 import com.ecommerce.ecommerce.models.Product;
+import com.ecommerce.ecommerce.repositories.ProductRepository;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
+
+    private ProductRepository productRepo;
+
     public static Specification<Product> hasBrand(Long brandId) {
         return (root, query, criteriaBuilder) ->
                 brandId == null ? criteriaBuilder.conjunction() :
@@ -43,5 +49,16 @@ public class ProductService {
                 return criteriaBuilder.between(root.get("price"), minPrice, maxPrice);
             }
         };
+    }
+
+
+    public List<Product> filterProducts(Long brandId, Long categoryId, Long sizeId, Long colorId, Double minPrice, Double maxPrice) {
+        Specification<Product> spec = Specification.where(hasBrand(brandId))
+                .and(hasCategory(categoryId))
+                .and(hasSize(sizeId))
+                .and(hasColor(colorId))
+                .and(hasPriceBetween(minPrice, maxPrice));
+
+        return productRepo.findAll(spec);
     }
 }
