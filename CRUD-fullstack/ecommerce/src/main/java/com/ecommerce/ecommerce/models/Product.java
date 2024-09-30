@@ -17,17 +17,25 @@ public class Product {
     private String description;
     private double price;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @ManyToMany
+    @JoinTable(
+            name = "product_categories",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    @ManyToOne
-    @JoinColumn(name = "size_id")
-    private Size size;
+    @ManyToMany
+    @JoinTable(
+            name = "product_sizes",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "size_id")
+    )
+    private List<Size> sizes;
 
     @ManyToMany
     @JoinTable(
@@ -37,14 +45,6 @@ public class Product {
     )
     private List<Color> colors;
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public Brand getBrand() {
         return brand;
     }
@@ -53,12 +53,20 @@ public class Product {
         this.brand = brand;
     }
 
-    public Size getSize() {
-        return size;
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    public void setSize(Size size) {
-        this.size = size;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public List<Size> getSizes() {
+        return sizes;
+    }
+
+    public void setSizes(List<Size> sizes) {
+        this.sizes = sizes;
     }
 
     public List<Color> getColors() {

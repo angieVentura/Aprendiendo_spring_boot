@@ -3,6 +3,9 @@ package com.ecommerce.ecommerce.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+
+import java.util.List;
 
 @Entity
 public class Category {
@@ -12,6 +15,10 @@ public class Category {
     private Long id;
 
     private String category;
+
+    @ManyToMany(mappedBy = "categories")
+    private List<Product> products;
+
 
     public Long getId() {
         return id;
