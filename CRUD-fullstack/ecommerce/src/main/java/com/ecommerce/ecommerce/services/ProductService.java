@@ -11,7 +11,11 @@ import java.util.List;
 @Service
 public class ProductService {
 
-    private ProductRepository productRepo;
+    private final ProductRepository productRepo;
+    public ProductService(ProductRepository productRepository){
+        this.productRepo = productRepository;
+    }
+
 
     public static Specification<Product> hasBrand(Long brandId) {
         return (root, query, criteriaBuilder) ->

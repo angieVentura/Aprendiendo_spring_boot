@@ -37,12 +37,20 @@ public class Product {
     )
     private List<Size> sizes;
 
+    public Product(Long id, String name, String description, double price) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
     @ManyToMany
     @JoinTable(
             name = "product_color",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "color_id")
     )
+
     private List<Color> colors;
 
     public Brand getBrand() {
