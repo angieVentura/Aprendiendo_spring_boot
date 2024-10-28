@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+<div>
+    <label>Num 1</label>
+    <input type="number" id="num1">
+</div>
+
+<div>
+    <label>Num 2</label>
+    <input type="number" id="num2">
+</div>
+
+<button id="send">Sumar</button>
+
+<div id="res"></div>
+
+<script>
+    let socket = new WebSocket("ws://localhost:8080/calculadora");
+
+    socket.onmessage = function(event){
+        $('#res').append('<p>' + event.data + '</p>');
+    }
+
+    $('#send').click( function() {
+        let num1 = parseFloat($('#num1').val());
+        let num2 = parseFloat($('#num2').val());
+
+        let resultado = num1 + num2;
+
+        socket.send("El resultado de la suma es: " + resultado);
+    });
+
+</script>
+
+</body>
+</html>

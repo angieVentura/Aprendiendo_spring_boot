@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<h1>Contador de palabras</h1>
+
+<div>
+    <label>Ingrese el texto</label>
+    <input type="text" id="textito">
+</div>
+
+<button id="send">Enviar</button>
+
+<div id="server"></div>
+
+<script>
+    let socket = new WebSocket("ws://localhost:8080/contador");
+
+    socket.onmessage = function(event){
+        $('#server').append('<p>' + event.data + '</p>');
+    };
+
+    $('#send').click( function() {
+        let msj = $('#textito').val();
+        socket.send(msj);
+    });
+</script>
+
+</body>
+</html>

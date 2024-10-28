@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Chat</title>
+</head>
+<body>
+<div>
+    <label>Usuario</label>
+    <input type="text" id="name">
+</div>
+<div>
+    <label>Mensaje</label>
+    <input type="text" id="msj">
+</div>
+
+<button type="submit" id="send">Send</button>
+
+<div id="msjs"></div>
+<script>
+    let socket = new WebSocket("ws://localhost:8080/chat");
+
+    socket.onmessage = function(event) {
+        $('#msjs').append('<p>' + event.data + '</p>');
+    };
+
+    $('#send').click(function() {
+        let user = $('#name').val();
+        let msg = $('#msj').val();
+        socket.send(user + ": " + msg);
+    });
+</script>
+</body>
+</html>
