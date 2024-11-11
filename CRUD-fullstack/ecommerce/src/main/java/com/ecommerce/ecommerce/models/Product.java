@@ -16,7 +16,6 @@ public class Product {
     private String name;
     private String description;
     private double price;
-
     @ManyToMany
     @JoinTable(
             name = "product_categories",
@@ -25,17 +24,20 @@ public class Product {
     )
     private List<Category> categories;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "product_sizes",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "size_id")
     )
     private List<Size> sizes;
+
+    public Product() {
+    }
 
     public Product(Long id, String name, String description, double price) {
         this.id = id;
@@ -44,7 +46,7 @@ public class Product {
         this.price = price;
     }
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "product_color",
             joinColumns = @JoinColumn(name = "product_id"),

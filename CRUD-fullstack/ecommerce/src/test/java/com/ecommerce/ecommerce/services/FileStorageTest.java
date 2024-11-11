@@ -30,7 +30,7 @@ public class FileStorageTest {
 
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         mockPath = mock(Path.class);
         fileStorageService = new FileStorageService(mockPath);
     }

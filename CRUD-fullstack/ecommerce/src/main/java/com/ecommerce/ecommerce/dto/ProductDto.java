@@ -21,6 +21,17 @@ public class ProductDto {
     private List<Long> colors_id;
     private Long brand_id;
 
+    public ProductDto() {
+    }
+
+    public ProductDto(Long id, String name, String description, double price) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
+
     public List<Long> getCategories_id() {
         return categories_id;
     }

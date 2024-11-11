@@ -16,6 +16,11 @@ public class Color {
     @ManyToMany(mappedBy = "colors")
     private List<Product> products;
 
+    public Color(Long id, String color) {
+        this.id = id;
+        this.color = color;
+    }
+
     public List<Product> getProducts() {
         return products;
     }

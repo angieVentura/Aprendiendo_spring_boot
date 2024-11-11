@@ -2,8 +2,13 @@
 package com.ecommerce.ecommerce.exceptions;
 
 
-public class ProductNotFoundException extends RuntimeException{
-    public ProductNotFoundException(Long id){
-        super("Product no encontrao: " + id);
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class ProductNotFoundException extends RuntimeException {
+
+    public ProductNotFoundException(Long productId) {
+        super("Producto con el ID " + productId + " no encontrao");
     }
 }

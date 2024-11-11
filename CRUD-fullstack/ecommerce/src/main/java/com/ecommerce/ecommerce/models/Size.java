@@ -16,7 +16,10 @@ public class Size {
     @ManyToMany(mappedBy = "sizes")
     private List<Product> products;
 
-
+    public Size(Long id, String size) {
+        this.id = id;
+        this.size = size;
+    }
 
     public Long getId() {
         return id;
